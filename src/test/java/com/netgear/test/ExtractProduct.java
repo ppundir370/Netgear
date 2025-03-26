@@ -148,7 +148,7 @@ public class ExtractProduct extends ExtentReport {
 
             driver.get(link);
 
-            Thread.sleep(3000);
+            Thread.sleep(5000);
             // Check if the expected element exists before waiting for its visibility
             List<WebElement> elements = driver.findElements(
                     By.xpath("//a[@class='btn hide-until-pick-a-topic-load my-1 btn-primary btn-sm mx-2']"));
