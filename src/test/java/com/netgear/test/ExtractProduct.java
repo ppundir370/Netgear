@@ -155,7 +155,7 @@ public class ExtractProduct extends ExtentReport {
             takeScreenshot("before_scroll");
             try {
                 WebElement wifiRoutersElement1 = wait.until(ExpectedConditions.presenceOfElementLocated(
-                        By.xpath("//a[@data-tab-value = '#product-category-0100-WiFiRouters']")));
+                        By.xpath("//a[contains(@data-tab-value , '#product-category-0100-WiFiRouters')]")));
 
                 // scrollToElement(wifiRoutersElement);
                 ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});",
