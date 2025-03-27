@@ -142,7 +142,8 @@ public class ExtractProduct extends ExtentReport {
                     // System.out.println("All the inside links of the Products : " + href);
                 }
             }
-            wait.until(ExpectedConditions.elementToBeClickable(wifiRoutersElement));
+            Thread.sleep(3000);
+            //wait.until(ExpectedConditions.elementToBeClickable(wifiRoutersElement));
             action.scrollToElement(wifiRoutersElement).build().perform();
             wifiRoutersElement.click();
         }
