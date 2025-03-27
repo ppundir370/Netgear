@@ -169,7 +169,8 @@ public class ExtractProduct extends ExtentReport {
                 Thread.sleep(1000);
                 takeScreenshot("Before_click");
                 System.out.println("Text of wifi Router Element " + wifiRoutersElement1.getText());
-                wait.until(ExpectedConditions.visibilityOf(wifiRoutersElement1)).click();
+                //wait.until(ExpectedConditions.visibilityOf(wifiRoutersElement1)).click();
+                wifiRoutersElement1.click();
                 takeScreenshot("After_click"); // Capture screenshot after clicking
 
                 
