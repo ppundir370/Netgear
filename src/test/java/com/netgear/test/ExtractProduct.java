@@ -130,20 +130,18 @@ public class ExtractProduct extends ExtentReport {
                 e.printStackTrace();
             }
             
-            // test.get().log(Status.PASS, "DOM element captured");
-            // System.out.println("The DOM element of subcategory is : " + domElement);
-            // String categoryText = currentSubCategory.getText().toLowerCase();
-
-            // single quotes
-            // System.out.println("Sub category selected: " + categoryText);
-
+            
+            takeScreenshot("SubCategory before click");
             // Wait for sub-category to be clickable & click it
             wait.until(ExpectedConditions.elementToBeClickable(currentSubCategory)).click();
             List<WebElement> insideLinks = driver.findElements(By.xpath(
                     "(//div[@class='col-xl-6'])[1]/div[contains(@id, '" + domElement + "')]//a"));
+            takeScreenshot("SubCategory after click");
+
             Thread.sleep(2000);
 
             for (WebElement link : insideLinks) {
+                takeScreenshot("Links of Each sub category" + link.getAttribute("href"));
                 // System.out.println(link.getText());
                 String href = link.getAttribute("href");
                 if (href != null && !href.isEmpty()) {
@@ -157,8 +155,9 @@ public class ExtractProduct extends ExtentReport {
             // Take Screenshot before an action
             takeScreenshot("before_click");
             try {
-                action.scrollToElement(wifiRoutersElement).build().perform();
                 wait.until(ExpectedConditions.elementToBeClickable(wifiRoutersElement));
+                action.scrollToElement(wifiRoutersElement).build().perform();
+                
                 System.out.println("Size of wifi Router Element " + wifiRoutersElement.getSize());
                 wifiRoutersElement.click();
                 takeScreenshot("after_click"); // Capture screenshot after clicking
