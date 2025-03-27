@@ -98,6 +98,7 @@ public class ExtractProduct extends ExtentReport {
         for (WebElement currentSubCategory : subCategory) {
 
             // Scroll to the element
+            Thread.sleep(3000);
             action.scrollToElement(currentSubCategory).build().perform();
 
             // Store text in session storage
