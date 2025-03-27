@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -63,10 +64,19 @@ public class ExtractProduct extends ExtentReport {
 
     // ✅ Setup WebDriver
     public static void setupDriver() {
-        driver = WebDriverManager.chromedriver().create();
-        driver.manage().window().maximize();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        action = new Actions(driver);
+        //chrome options added on 27-03-2025 to mimic jenkins headless behvaiour//
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--headless"); // Run Chrome in headless mode
+    options.addArguments("--disable-gpu"); // Disable GPU hardware acceleration
+    options.addArguments("--window-size=1920,1080"); // Set window size
+    options.addArguments("--disable-dev-shm-usage"); // Overcome limited resource issues
+    options.addArguments("--no-sandbox"); // Bypass OS security restrictions
+    
+    driver = WebDriverManager.chromedriver().capabilities(options).create();
+    driver.manage().window().maximize();
+    wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+    action = new Actions(driver);
+    ////chrome options added on 27-03-2025 to mimic jenkins headless behvaiour//
     }
 
     // ✅ Navigate to Netgear Support page
@@ -106,6 +116,9 @@ public class ExtractProduct extends ExtentReport {
                     currentSubCategory.getText());
 
             String domElement = currentSubCategory.getAttribute("data-ref-id");
+            //added on 27-03-2025
+            System.out.println("The dom Element is : " + domElement);
+            //added on 27-03-2025
             // test.get().log(Status.PASS, "DOM element captured");
             // System.out.println("The DOM element of subcategory is : " + domElement);
             // String categoryText = currentSubCategory.getText().toLowerCase();

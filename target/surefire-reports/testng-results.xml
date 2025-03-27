@@ -2,16 +2,16 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-03-26T13:22:53 IST" name="Surefire suite" finished-at="2025-03-26T13:27:52 IST" duration-ms="299720">
+  <suite started-at="2025-03-27T16:41:54 IST" name="Surefire suite" finished-at="2025-03-27T17:41:28 IST" duration-ms="3573342">
     <groups>
     </groups>
-    <test started-at="2025-03-26T13:22:53 IST" name="Surefire test" finished-at="2025-03-26T13:27:52 IST" duration-ms="299720">
+    <test started-at="2025-03-27T16:41:54 IST" name="Surefire test" finished-at="2025-03-27T17:41:28 IST" duration-ms="3573342">
       <class name="com.netgear.test.ExtractProduct">
-        <test-method is-config="true" signature="setupReport()[pri:0, instance:com.netgear.test.ExtractProduct@69b2283a]" started-at="2025-03-26T13:22:53 IST" name="setupReport" finished-at="2025-03-26T13:22:53 IST" duration-ms="466" status="PASS">
+        <test-method is-config="true" signature="setupReport()[pri:0, instance:com.netgear.test.ExtractProduct@659a969b]" started-at="2025-03-27T16:41:54 IST" name="setupReport" finished-at="2025-03-27T16:41:55 IST" duration-ms="326" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setupReport -->
-        <test-method is-config="true" signature="setupTest(java.lang.reflect.Method)[pri:0, instance:com.netgear.test.ExtractProduct@69b2283a]" started-at="2025-03-26T13:22:53 IST" name="setupTest" finished-at="2025-03-26T13:22:53 IST" duration-ms="13" status="PASS">
+        <test-method is-config="true" signature="setupTest(java.lang.reflect.Method)[pri:0, instance:com.netgear.test.ExtractProduct@659a969b]" started-at="2025-03-27T16:41:55 IST" name="setupTest" finished-at="2025-03-27T16:41:55 IST" duration-ms="12" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -22,7 +22,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setupTest -->
-        <test-method is-config="true" signature="verifytest(java.lang.reflect.Method)[pri:0, instance:com.netgear.test.ExtractProduct@69b2283a]" started-at="2025-03-26T13:22:53 IST" name="verifytest" finished-at="2025-03-26T13:22:53 IST" duration-ms="2" status="PASS">
+        <test-method is-config="true" signature="verifytest(java.lang.reflect.Method)[pri:0, instance:com.netgear.test.ExtractProduct@659a969b]" started-at="2025-03-27T16:41:55 IST" name="verifytest" finished-at="2025-03-27T16:41:55 IST" duration-ms="1" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -33,11 +33,11 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifytest -->
-        <test-method signature="listOfProducts()[pri:0, instance:com.netgear.test.ExtractProduct@69b2283a]" started-at="2025-03-26T13:22:53 IST" name="listOfProducts" finished-at="2025-03-26T13:27:52 IST" duration-ms="298765" status="PASS">
+        <test-method signature="listOfProducts()[pri:0, instance:com.netgear.test.ExtractProduct@659a969b]" started-at="2025-03-27T16:41:55 IST" name="listOfProducts" finished-at="2025-03-27T17:41:27 IST" duration-ms="3571945" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- listOfProducts -->
-        <test-method is-config="true" signature="tearDownReport()[pri:0, instance:com.netgear.test.ExtractProduct@69b2283a]" started-at="2025-03-26T13:27:52 IST" name="tearDownReport" finished-at="2025-03-26T13:27:52 IST" duration-ms="394" status="PASS">
+        <test-method is-config="true" signature="tearDownReport()[pri:0, instance:com.netgear.test.ExtractProduct@659a969b]" started-at="2025-03-27T17:41:27 IST" name="tearDownReport" finished-at="2025-03-27T17:41:28 IST" duration-ms="996" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownReport -->
