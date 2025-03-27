@@ -1,5 +1,6 @@
 package com.netgear.test;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -10,6 +11,8 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
@@ -64,19 +67,19 @@ public class ExtractProduct extends ExtentReport {
 
     // ✅ Setup WebDriver
     public static void setupDriver() {
-        //chrome options added on 27-03-2025 to mimic jenkins headless behvaiour//
-    ChromeOptions options = new ChromeOptions();
-    options.addArguments("--headless"); // Run Chrome in headless mode
-    options.addArguments("--disable-gpu"); // Disable GPU hardware acceleration
-    options.addArguments("--window-size=1920,1080"); // Set window size
-    options.addArguments("--disable-dev-shm-usage"); // Overcome limited resource issues
-    options.addArguments("--no-sandbox"); // Bypass OS security restrictions
-    
-    driver = WebDriverManager.chromedriver().capabilities(options).create();
-    driver.manage().window().maximize();
-    wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-    action = new Actions(driver);
-    ////chrome options added on 27-03-2025 to mimic jenkins headless behvaiour//
+        // chrome options added on 27-03-2025 to mimic jenkins headless behvaiour//
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new"); // Run Chrome in headless mode
+        options.addArguments("--disable-gpu"); // Disable GPU hardware acceleration
+        options.addArguments("--window-size=1920,1080"); // Set window size
+        options.addArguments("--disable-dev-shm-usage"); // Overcome limited resource issues
+        options.addArguments("--no-sandbox"); // Bypass OS security restrictions
+
+        driver = WebDriverManager.chromedriver().capabilities(options).create();
+        driver.manage().window().maximize();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        action = new Actions(driver);
+        //// chrome options added on 27-03-2025 to mimic jenkins headless behvaiour//
     }
 
     // ✅ Navigate to Netgear Support page
@@ -116,9 +119,17 @@ public class ExtractProduct extends ExtentReport {
                     currentSubCategory.getText());
 
             String domElement = currentSubCategory.getAttribute("data-ref-id");
-            //added on 27-03-2025
+            takeScreenshot("Before Print");
+            try {
+                // added on 27-03-2025
             System.out.println("The dom Element is : " + domElement);
-            //added on 27-03-2025
+            // added on 27-03-2025
+                takeScreenshot("After Print"); // Capture screenshot after clicking
+            } catch (Exception e) {
+                takeScreenshot("error"); // Capture screenshot on error
+                e.printStackTrace();
+            }
+            
             // test.get().log(Status.PASS, "DOM element captured");
             // System.out.println("The DOM element of subcategory is : " + domElement);
             // String categoryText = currentSubCategory.getText().toLowerCase();
@@ -142,10 +153,20 @@ public class ExtractProduct extends ExtentReport {
                     // System.out.println("All the inside links of the Products : " + href);
                 }
             }
-            //Thread.sleep(3000);
-            action.scrollToElement(wifiRoutersElement).build().perform();
-            wait.until(ExpectedConditions.elementToBeClickable(wifiRoutersElement));
-            wifiRoutersElement.click();
+            // Thread.sleep(3000);
+            // Take Screenshot before an action
+            takeScreenshot("before_click");
+            try {
+                action.scrollToElement(wifiRoutersElement).build().perform();
+                wait.until(ExpectedConditions.elementToBeClickable(wifiRoutersElement));
+                System.out.println("Size of wifi Router Element " + wifiRoutersElement.getSize());
+                wifiRoutersElement.click();
+                takeScreenshot("after_click"); // Capture screenshot after clicking
+            } catch (Exception e) {
+                takeScreenshot("error"); // Capture screenshot on error
+                e.printStackTrace();
+            }
+
         }
 
     }
@@ -173,122 +194,122 @@ public class ExtractProduct extends ExtentReport {
 
                 // Now wait for visibility before interacting
                 wait.until(ExpectedConditions.visibilityOf(firmwareAndDoElement));
-           
-           // WebElement firmwareAndDoElement = driver.findElement(
-              //      By.xpath("//a[@class='btn hide-until-pick-a-topic-load my-1 btn-primary btn-sm mx-2']"));
-           // wait.until(ExpectedConditions.visibilityOf(firmwareAndDoElement));
-            if (firmwareAndDoElement.isDisplayed()) 
-            {
-                try {
-                    test.get().log(Status.PASS, "Download button visible on page");
 
-                    firmwareAndDoElement.click();
-                    //
-                    // wait.until(ExpectedConditions.visibilityOf(currentVersionTexElement));
-                    WebElement currentVersionTexElement = driver.findElement(
-                            By.xpath("//h5[@class='border-bottom pb-2 mb-2' and text() = 'Current Versions']"));
+                // WebElement firmwareAndDoElement = driver.findElement(
+                // By.xpath("//a[@class='btn hide-until-pick-a-topic-load my-1 btn-primary
+                // btn-sm mx-2']"));
+                // wait.until(ExpectedConditions.visibilityOf(firmwareAndDoElement));
+                if (firmwareAndDoElement.isDisplayed()) {
+                    try {
+                        test.get().log(Status.PASS, "Download button visible on page");
 
-                    action.scrollToElement(currentVersionTexElement).build().perform();
-                    currentVersionTexElement.getText();
-                    test.get().log(Status.PASS,
-                            "Text is :  " + currentVersionTexElement.getText());
+                        firmwareAndDoElement.click();
+                        //
+                        // wait.until(ExpectedConditions.visibilityOf(currentVersionTexElement));
+                        WebElement currentVersionTexElement = driver.findElement(
+                                By.xpath("//h5[@class='border-bottom pb-2 mb-2' and text() = 'Current Versions']"));
 
-                    if (currentVersionTexElement.isDisplayed()) {
-                        try {
-                            // test.get().log(Status.PASS, "Current Version text verified on page");
-                            // Below represents firmware text
-                            List<WebElement> insideElements = driver.findElements(By.xpath(
-                                    "//div[@id='downloadDocsAccordian']/div/h2/a[@class='accordion-button collapsed bg-light']"));
-                            insideElements.size();
-                            System.out.println("The link is*********** :" + link);
-                            System.out.println("The elements text size under current version of above link********** : "
-                                    + insideElements.size());
-                            // Download Links inside firmware text
-                            // List<WebElement> downloadElements = driver.findElements(
-                            // By.xpath("//div[@id='downloadDocsAccordian']/div/h2/following-sibling::div/div/a"));
-                            // System.out.println("The links inside each Element" +
-                            // downloadElements.size());
+                        action.scrollToElement(currentVersionTexElement).build().perform();
+                        currentVersionTexElement.getText();
+                        test.get().log(Status.PASS,
+                                "Text is :  " + currentVersionTexElement.getText());
 
-                            // Iterate through each inside element
-                            // Iterate through each inside element
-                            // for (int i = 0; i < insideElements.size(); i++) {
-                            // Get and print the text of the current element
-                            // String text = insideElements.get(i).getText();
-                            // System.out.println("The text is: " + text);
+                        if (currentVersionTexElement.isDisplayed()) {
+                            try {
+                                // test.get().log(Status.PASS, "Current Version text verified on page");
+                                // Below represents firmware text
+                                List<WebElement> insideElements = driver.findElements(By.xpath(
+                                        "//div[@id='downloadDocsAccordian']/div/h2/a[@class='accordion-button collapsed bg-light']"));
+                                insideElements.size();
+                                System.out.println("The link is*********** :" + link);
+                                System.out.println(
+                                        "The elements text size under current version of above link********** : "
+                                                + insideElements.size());
+                                // Download Links inside firmware text
+                                // List<WebElement> downloadElements = driver.findElements(
+                                // By.xpath("//div[@id='downloadDocsAccordian']/div/h2/following-sibling::div/div/a"));
+                                // System.out.println("The links inside each Element" +
+                                // downloadElements.size());
 
-                            // Click on the element to update the page content
-                            // insideElements.get(i).click();
+                                // Iterate through each inside element
+                                // Iterate through each inside element
+                                // for (int i = 0; i < insideElements.size(); i++) {
+                                // Get and print the text of the current element
+                                // String text = insideElements.get(i).getText();
+                                // System.out.println("The text is: " + text);
 
-                            // Wait for the new elements to load (Add explicit wait if necessary)
-                            Thread.sleep(2000); // Replace with WebDriverWait if possible
+                                // Click on the element to update the page content
+                                // insideElements.get(i).click();
 
-                            // Fetch the updated list of download elements AFTER the click
-                            List<WebElement> downloadElements = driver.findElements(
-                                    By.xpath("//div[@id='downloadDocsAccordian']/div/h2/following-sibling::div/div/a"));
-                            System.out.println("Total links are " + downloadElements.size());
-                            test.get().log(Status.PASS, "Total links are:********** " + downloadElements.size());
-                            // Print each link immediately after the text
-                            for (WebElement link1 : downloadElements) {
-                                String href = link1.getAttribute("href");
-                                System.out.println("Link is:*********** " + href);
-                                test.get().log(Status.PASS, "Link is:********** " + href);
+                                // Wait for the new elements to load (Add explicit wait if necessary)
+                                Thread.sleep(2000); // Replace with WebDriverWait if possible
+
+                                // Fetch the updated list of download elements AFTER the click
+                                List<WebElement> downloadElements = driver.findElements(
+                                        By.xpath(
+                                                "//div[@id='downloadDocsAccordian']/div/h2/following-sibling::div/div/a"));
+                                System.out.println("Total links are " + downloadElements.size());
+                                test.get().log(Status.PASS, "Total links are:********** " + downloadElements.size());
+                                // Print each link immediately after the text
+                                for (WebElement link1 : downloadElements) {
+                                    String href = link1.getAttribute("href");
+                                    System.out.println("Link is:*********** " + href);
+                                    test.get().log(Status.PASS, "Link is:********** " + href);
+                                }
+                                // }
+
+                                // for (WebElement firmwaretexElement : insideElements)
+                                // {
+                                // String text = firmwaretexElement.getText();
+                                // System.out.println(text);
+                                // // test.get().log(Status.PASS, " " + text);
+
+                                // action.scrollToElement(firmwaretexElement).build().perform();
+                                // firmwaretexElement.click();
+                                // try{
+                                // for(WebElement firwareDownloadLinkElement : downloadElements)
+                                // {
+                                // action.scrollToElement(firwareDownloadLinkElement).build().perform();
+                                // String href = firwareDownloadLinkElement.getAttribute("href");
+                                // System.out.println("links inside are " + href);
+                                // // test.get().log(Status.PASS, "URL " +
+                                // "https://stagesupport.netgear.com/support/product/be17000/");
+                                // // test.get().log(Status.PASS, "Download and Release links verified on the
+                                // page "+firwareDownloadLinkElement.getText() +" ::"+ href);
+
+                                // // System.out.println("The download links and release links are : "
+                                // +singleDownloadElement.getText() +" ::"+ href) ;
+                                // }
+                                // }
+                                // catch(Exception e)
+                                // {
+                                // test.get().log(Status.FAIL, "Unable to traverse Firmware download links on
+                                // click" + "https://stagesupport.netgear.com/support/product/be17000/");
+                                // }
+
+                                // // System.out.println("The element are as follows : " + text);
+
+                                // // String href = insideElements.ge;
+                                // // System.out.println("Link extracted from current version section :");
+
+                                // //extractedLinks.add(new String[]{text, text}); //Store in list
+                                // }
+                            } catch (Exception e) {
+                                test.get().log(Status.FAIL, "Current Version if condition failed");
+
                             }
-                            // }
-
-                            // for (WebElement firmwaretexElement : insideElements)
-                            // {
-                            // String text = firmwaretexElement.getText();
-                            // System.out.println(text);
-                            // // test.get().log(Status.PASS, " " + text);
-
-                            // action.scrollToElement(firmwaretexElement).build().perform();
-                            // firmwaretexElement.click();
-                            // try{
-                            // for(WebElement firwareDownloadLinkElement : downloadElements)
-                            // {
-                            // action.scrollToElement(firwareDownloadLinkElement).build().perform();
-                            // String href = firwareDownloadLinkElement.getAttribute("href");
-                            // System.out.println("links inside are " + href);
-                            // // test.get().log(Status.PASS, "URL " +
-                            // "https://stagesupport.netgear.com/support/product/be17000/");
-                            // // test.get().log(Status.PASS, "Download and Release links verified on the
-                            // page "+firwareDownloadLinkElement.getText() +" ::"+ href);
-
-                            // // System.out.println("The download links and release links are : "
-                            // +singleDownloadElement.getText() +" ::"+ href) ;
-                            // }
-                            // }
-                            // catch(Exception e)
-                            // {
-                            // test.get().log(Status.FAIL, "Unable to traverse Firmware download links on
-                            // click" + "https://stagesupport.netgear.com/support/product/be17000/");
-                            // }
-
-                            // // System.out.println("The element are as follows : " + text);
-
-                            // // String href = insideElements.ge;
-                            // // System.out.println("Link extracted from current version section :");
-
-                            // //extractedLinks.add(new String[]{text, text}); //Store in list
-                            // }
-                        } catch (Exception e) {
-                            test.get().log(Status.FAIL, "Current Version if condition failed");
-
                         }
+                    } catch (Exception e) {
+                        test.get().log(Status.INFO, "Download button not visible  " + link);
                     }
-                } catch (Exception e) {
-                    test.get().log(Status.INFO, "Download button not visible  " + link );
-                }
 
+                } else {
+                    test.get().log(Status.PASS, "No Firmware and download link present on the page :  " + link);
+                    // System.out.println("No Firmware and download link present on the page :");
+                }
             } else {
-                test.get().log(Status.PASS, "No Firmware and download link present on the page :  " + link);
-                // System.out.println("No Firmware and download link present on the page :");
+                test.get().log(Status.INFO, "Expected element not found on page, skipping. " + "Link is " + link);
             }
-        }
-        else
-        {
-            test.get().log(Status.INFO, "Expected element not found on page, skipping. "+"Link is " + link);
-        }
 
         }
 
@@ -310,7 +331,25 @@ public class ExtractProduct extends ExtentReport {
         }
     }
 
+    public static void takeScreenshot(String fileName) {
+        try {
+            // 1️⃣ Capture screenshot as a file
+            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+            // 2️⃣ Define the destination path for saving the screenshot
+            File destination = new File("target/screenshots/" + fileName + ".png");
+
+            // 3️⃣ Copy the captured screenshot to the destination folder
+            FileUtils.copyFile(screenshot, destination);
+
+            System.out.println("📸 Screenshot saved: " + destination.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void wifiRoutersSubCategories() {
 
     }
+
 }
