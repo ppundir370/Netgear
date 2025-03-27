@@ -155,10 +155,11 @@ public class ExtractProduct extends ExtentReport {
             // Take Screenshot before an action
             takeScreenshot("before_click");
             try {
-                wait.until(ExpectedConditions.elementToBeClickable(wifiRoutersElement));
+               // wait.until(ExpectedConditions.elementToBeClickable(wifiRoutersElement));
                 //action.scrollToElement(wifiRoutersElement).build().perform();
                 ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", wifiRoutersElement);
-                System.out.println("Size of wifi Router Element " + wifiRoutersElement.getSize());
+                wait.until(ExpectedConditions.elementToBeClickable(wifiRoutersElement));
+                System.out.println("Size of wifi Router Element " + wifiRoutersElement.getText());
                 wifiRoutersElement.click();
                 takeScreenshot("after_click"); // Capture screenshot after clicking
             } catch (Exception e) {
