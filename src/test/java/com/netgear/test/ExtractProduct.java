@@ -141,7 +141,7 @@ public class ExtractProduct extends ExtentReport {
             Thread.sleep(2000);
 
             for (WebElement link : insideLinks) {
-                takeScreenshot("Links of Each sub category" + link.getAttribute("href"));
+                takeScreenshot("Links of Each sub category");
                 // System.out.println(link.getText());
                 String href = link.getAttribute("href");
                 if (href != null && !href.isEmpty()) {
