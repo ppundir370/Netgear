@@ -122,15 +122,14 @@ public class ExtractProduct extends ExtentReport {
             takeScreenshot("Before Print");
             try {
                 // added on 27-03-2025
-            System.out.println("The dom Element is : " + domElement);
-            // added on 27-03-2025
+                System.out.println("The dom Element is : " + domElement);
+                // added on 27-03-2025
                 takeScreenshot("After Print"); // Capture screenshot after clicking
             } catch (Exception e) {
                 takeScreenshot("error"); // Capture screenshot on error
                 e.printStackTrace();
             }
-            
-            
+
             takeScreenshot("SubCategory before click");
             // Wait for sub-category to be clickable & click it
             wait.until(ExpectedConditions.elementToBeClickable(currentSubCategory)).click();
@@ -153,14 +152,21 @@ public class ExtractProduct extends ExtentReport {
             }
             // Thread.sleep(3000);
             // Take Screenshot before an action
-            takeScreenshot("before_click");
+            takeScreenshot("before_scroll");
             try {
-               // wait.until(ExpectedConditions.elementToBeClickable(wifiRoutersElement));
-                //action.scrollToElement(wifiRoutersElement).build().perform();
-                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", wifiRoutersElement);
-                wait.until(ExpectedConditions.elementToBeClickable(wifiRoutersElement));
+                WebElement wifiRoutersElement1 = wait.until(ExpectedConditions.presenceOfElementLocated(
+                        By.xpath("//a[@data-tab-value = '#product-category-0100-WiFiRouters']")));
+
+                // scrollToElement(wifiRoutersElement);
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});",
+                        wifiRoutersElement1);
+                        takeScreenshot("After_Scroll");
+                Thread.sleep(1000);
+                takeScreenshot("Before_click");
                 System.out.println("Size of wifi Router Element " + wifiRoutersElement.getText());
-                wifiRoutersElement.click();
+                wait.until(ExpectedConditions.elementToBeClickable(wifiRoutersElement1)).click();
+                takeScreenshot("After_click");
+
                 takeScreenshot("after_click"); // Capture screenshot after clicking
             } catch (Exception e) {
                 takeScreenshot("error"); // Capture screenshot on error
