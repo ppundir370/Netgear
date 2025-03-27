@@ -117,6 +117,7 @@ public class ExtractProduct extends ExtentReport {
             // Store text in session storage
             js.executeScript("sessionStorage.setItem(arguments[0], arguments[1]);", "subCategory" +
                     currentSubCategory.getText());
+                    System.out.println("Current sub category text value : " + currentSubCategory.getText());
 
             String domElement = currentSubCategory.getAttribute("data-ref-id");
             takeScreenshot("Before Print");
@@ -154,6 +155,10 @@ public class ExtractProduct extends ExtentReport {
             // Take Screenshot before an action
             takeScreenshot("before_scroll");
             try {
+                
+                WebElement BreadCrumbWifiRouter = driver.findElement(By.xpath("//span[@id='first_column_title']"));
+                wait.until(ExpectedConditions.visibilityOf(BreadCrumbWifiRouter));
+                BreadCrumbWifiRouter.click();
                 WebElement wifiRoutersElement1 = wait.until(ExpectedConditions.presenceOfElementLocated(
                         By.xpath("//a[contains(@data-tab-value , '#product-category-0100-WiFiRouters')]")));
 
@@ -163,7 +168,7 @@ public class ExtractProduct extends ExtentReport {
                         takeScreenshot("After_Scroll");
                 Thread.sleep(1000);
                 takeScreenshot("Before_click");
-                System.out.println("Size of wifi Router Element " + wifiRoutersElement1.getText());
+                System.out.println("Text of wifi Router Element " + wifiRoutersElement1.getText());
                 wait.until(ExpectedConditions.visibilityOf(wifiRoutersElement1)).click();
                 takeScreenshot("After_click"); // Capture screenshot after clicking
 
