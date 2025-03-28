@@ -146,9 +146,6 @@ public class ExtractProduct extends ExtentReport {
                 String href = link.getAttribute("href");
                 if (href != null && !href.isEmpty()) {
                     allLinks.add(href);
-                    // test.get().log(Status.PASS, "Size of the links captured " + allLinks.size());
-                    // test.get().log(Status.PASS, "Traversed all the links" + href);
-                    // System.out.println("All the inside links of the Products : " + href);
                 }
             }
             // Thread.sleep(3000);
@@ -159,21 +156,21 @@ public class ExtractProduct extends ExtentReport {
                 WebElement BreadCrumbWifiRouter = driver.findElement(By.xpath("//span[@id='first_column_title']"));
                 wait.until(ExpectedConditions.visibilityOf(BreadCrumbWifiRouter));
                 BreadCrumbWifiRouter.click();
+
                 WebElement wifiRoutersElement1 = wait.until(ExpectedConditions.presenceOfElementLocated(
                         By.xpath("//a[@data-tab-value = '#product-category-0100-WiFiRouters']")));
 
-                // scrollToElement(wifiRoutersElement);
+                // scrollToElement(wifiRoutersElement1);
                 ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});",
                         wifiRoutersElement1);
                         takeScreenshot("After_Scroll");
                 Thread.sleep(1000);
                 takeScreenshot("Before_click");
-                System.out.println("Text of wifi Router Element " + wifiRoutersElement1.getText());
+               // System.out.println("Text of wifi Router Element " + wifiRoutersElement1.getText());
                 //wait.until(ExpectedConditions.visibilityOf(wifiRoutersElement1)).click();
                 wifiRoutersElement1.click();
-                takeScreenshot("After_click"); // Capture screenshot after clicking
-
-                
+                System.out.println("Wifi Router element : ");
+                takeScreenshot("After_click"); // Capture screenshot after clicking   
             } catch (Exception e) {
                 takeScreenshot("error"); // Capture screenshot on error
                 e.printStackTrace();
@@ -191,6 +188,7 @@ public class ExtractProduct extends ExtentReport {
             test.get().log(Status.PASS, "Link launched in browser");
             if (!isLinkAlive(link)) {
                 test.get().log(Status.FAIL, "Link is dead");
+                System.out.println("Dead link : " + link);
                 continue;
             }
 
