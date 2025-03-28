@@ -8,8 +8,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -88,7 +90,7 @@ public class ExtractProduct extends ExtentReport {
     }
 
     public static void wifiRoutersCategory() throws InterruptedException {
-
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         List<WebElement> allCategory = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                 By.xpath("//a[@class='category-grid']")));
 
@@ -101,18 +103,24 @@ public class ExtractProduct extends ExtentReport {
         wifiRoutersElement.click();
         wait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath("//a[@data-category-name = '0100-WiFi Routers']")));
+                takeScreenshot("Before_When wifi router is highlighted black");
+                js.executeScript("arguments[0].style.border='3px solid black'", wifiRoutersElement);
+                takeScreenshot("After_When wifi router is highlighted black");
 
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        
 
         // ✅ Re-fetch the sub-category list
         List<WebElement> subCategory = driver.findElements(By.xpath("//a[@data-category-name = '0100-WiFi Routers']"));
-
+        takeScreenshot("Before_Entering For loop");
         // Store text in session storage
         for (WebElement currentSubCategory : subCategory) {
 
             // Scroll to the element
             Thread.sleep(3000);
             action.scrollToElement(currentSubCategory).build().perform();
+            takeScreenshot("After_Entering For loop");
+            js.executeScript("arguments[0].style.border='3px solid green'", currentSubCategory);
+            takeScreenshot("When current sub category is highlighted green");
 
             // Store text in session storage
             js.executeScript("sessionStorage.setItem(arguments[0], arguments[1]);", "subCategory" +
@@ -142,6 +150,7 @@ public class ExtractProduct extends ExtentReport {
 
             for (WebElement link : insideLinks) {
                 takeScreenshot("Links of Each sub category");
+                js.executeScript("arguments[0].style.border='3px solid grey'", link);
                 // System.out.println(link.getText());
                 String href = link.getAttribute("href");
                 if (href != null && !href.isEmpty()) {
@@ -152,9 +161,10 @@ public class ExtractProduct extends ExtentReport {
             // Take Screenshot before an action
             takeScreenshot("before_scroll");
             try {
-                
+                Thread.sleep(5000);
                 WebElement BreadCrumbWifiRouter = driver.findElement(By.xpath("//span[@id='first_column_title']"));
                 wait.until(ExpectedConditions.visibilityOf(BreadCrumbWifiRouter));
+                js.executeScript("arguments[0].style.border='3px solid blue'", BreadCrumbWifiRouter);
                 BreadCrumbWifiRouter.click();
 
                 WebElement wifiRoutersElement1 = wait.until(ExpectedConditions.presenceOfElementLocated(
@@ -163,14 +173,21 @@ public class ExtractProduct extends ExtentReport {
                 // scrollToElement(wifiRoutersElement1);
                 ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});",
                         wifiRoutersElement1);
-                        takeScreenshot("After_Scroll");
-                Thread.sleep(1000);
-                takeScreenshot("Before_click");
+                
+                takeScreenshot("After_Scroll");
+                
+                //takeScreenshot("Before_click");
                // System.out.println("Text of wifi Router Element " + wifiRoutersElement1.getText());
                 //wait.until(ExpectedConditions.visibilityOf(wifiRoutersElement1)).click();
+                Thread.sleep(5000);
+                takeScreenshot("Before_When wifi router is highlighted pink");
+                js.executeScript("arguments[0].style.border='3px solid pink'", wifiRoutersElement1);
+                takeScreenshot("After_When wifi router is highlighted pink");
                 wifiRoutersElement1.click();
-                System.out.println("Wifi Router element : ");
+                Thread.sleep(5000);
                 takeScreenshot("After_click"); // Capture screenshot after clicking   
+                System.out.println("Wifi Router element after click : " + wifiRoutersElement1.getText());
+                
             } catch (Exception e) {
                 takeScreenshot("error"); // Capture screenshot on error
                 e.printStackTrace();
@@ -344,10 +361,16 @@ public class ExtractProduct extends ExtentReport {
     public static void takeScreenshot(String fileName) {
         try {
             // 1️⃣ Capture screenshot as a file
+
+            // 🔹 Add timestamp for uniqueness
+            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+            // 🔹 Append timestamp to filename
+            String finalFileName = fileName + "_" + timestamp + ".png";
             File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
             // 2️⃣ Define the destination path for saving the screenshot
-            File destination = new File("target/screenshots/" + fileName + ".png");
+            File destination = new File("target/screenshots/" + finalFileName);
 
             // 3️⃣ Copy the captured screenshot to the destination folder
             FileUtils.copyFile(screenshot, destination);

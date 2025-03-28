@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.netgear.test.ExtractProduct
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3393 s -- in com.netgear.test.ExtractProduct
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 620.4 s -- in com.netgear.test.ExtractProduct
