@@ -183,9 +183,9 @@ public class ExtractProduct extends ExtentReport {
                 takeScreenshot("Before_When wifi router is highlighted pink");
                 js.executeScript("arguments[0].style.border='3px solid pink'", wifiRoutersElement1);
                 takeScreenshot("After_When wifi router is highlighted pink");
-                wifiRoutersElement1.click();
-                Thread.sleep(5000);
-                takeScreenshot("After_click"); // Capture screenshot after clicking   
+                //wifiRoutersElement1.click();
+                //Thread.sleep(5000);
+                //takeScreenshot("After_click"); // Capture screenshot after clicking   
                 System.out.println("Wifi Router element after click : " + wifiRoutersElement1.getText());
                 
             } catch (Exception e) {
