@@ -86,7 +86,7 @@ public class ExtractProduct extends ExtentReport {
 
     // ✅ Navigate to Netgear Support page
     public static void navigateToSupportPage() {
-        driver.get("https://stagesupport.netgear.com/de/support/");
+        driver.get("https://stagesupport.netgear.com/support/");
     }
 
     public static void wifiRoutersCategory() throws InterruptedException {
